@@ -21,12 +21,22 @@ int main() {
 	else {
 		read_lines();
 	}
-	system("pause");
 	return 0;
 }
 
 /*codes*/
 
+void mc_var(string line__)
+{
+	for (int i = 5; i < line__.length(); i++) {
+		if (line__[i] != '(' && line__[i] != ')' && line__[i] != ';' && line__[i] != ',') {
+			
+			int pos = line__[4] - '0';
+			vars_c[pos] = line__[i];
+			
+		}
+	}
+}
 void mc_print(string line__) {
 	int ok = 0;
 	if (line__[5] != '(') {
@@ -37,7 +47,7 @@ void mc_print(string line__) {
 	}
 	for (int i = 0; i <= line__.length(); i++) {
 		if (line__[i] != ';') {
-			if (line__[i] != '(' && line__[i] != ')' && line__[i] != '"')
+			if (line__[i] != '(' && line__[i] != ')' && line__[i] != '"' && line__[i] != '&')
 			{
 				for (int c = 0; c < 5; c++) {
 					{
@@ -46,7 +56,13 @@ void mc_print(string line__) {
 					}
 				}
 				if (i >= 5) {
-					printf("%c", line__[i]);
+					if (line__[i-1] == '&') {
+						int a = line__[i] - '0';
+						printf("%c", vars_c[a]);
+					}
+					else {
+						printf("%c", line__[i]);
+					}
 				}
 
 			}
@@ -84,6 +100,18 @@ void mc_for(string line__) {
 
 	}	
 }
+void mc_close()
+{
+	exit(0);
+}
+void mc_pause()
+{
+	system("pause");
+}
+void mc_clear()
+{
+	system("cls");
+}
 
 /*/*//*/*/
 
@@ -95,6 +123,20 @@ void interpreter(string line__)
 	if (line__[0] == 'f' && line__[1] == 'o' && line__[2] == 'r') {
 		mc_for(line__);
 	}
+	if (line__ == "close();" || line__ == "exit();") {
+		mc_close();
+	}
+	if (line__ == "pause();" || line__ == "stop();") {
+		mc_pause();
+	}
+	if (line__ == "clear();" || line__ == "cls();") {
+		mc_clear();
+	}
+
+	if (line__[0] == 'v' && line__[1] == 'a' && line__[2] == 'r') {
+		mc_var(line__);
+	}
+
 }
 void read_lines() {
 	string line;

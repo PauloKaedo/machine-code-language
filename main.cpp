@@ -6,8 +6,10 @@
 #include <string>
 #include <vector>
 
-int vars_[32] = {};
-char vars_c[32] = {};
+//int vars_[128] = {}; OBSELETE
+//char vars_c[128] = {}; OBSELETE
+ 
+short *vars_c = (short *)malloc(128 * sizeof(short));; // new
 
 void error_(errors_type t_e);
 void read_lines();
@@ -29,7 +31,7 @@ int main() {
 void mc_var(string line__)
 {
 	for (int i = 5; i < line__.length(); i++) {
-		if (line__[i] != '(' && line__[i] != ')' && line__[i] != ';' && line__[i] != ',') {
+		if (line__[i] != '(' && line__[i] != ')' && line__[i] != ';' && line__[i] != ',' && line__[i] != '"') {
 			
 			int pos = line__[4] - '0';
 			vars_c[pos] = line__[i];
@@ -78,9 +80,22 @@ void mc_print(string line__) {
 	if (ok <= 0) {
 		error_(errors_type::SEMICOLON_NO_EXISTS);
 	}
-}
+}	
 void mc_for(string line__) {
-	int a = line__[6] + line__[7] - 87;
+
+	int a = line__[6] - '0';
+	int c = line__[7] - '0';
+
+	if (c < 0) {
+		c = 0;
+	}
+	if (a < 0) {
+		a = 0;
+	}
+
+	a = a * 10 + c;
+	
+	
 	for (int i = 0; i < a; i++) {
 		vars_c[0] = i + '0';
 			if (line__[12] == 'p' && line__[13] == 'r' && line__[14] == 'i' && line__[15] == 'n' && line__[16] == 't') {
@@ -95,7 +110,16 @@ void mc_for(string line__) {
 						printf("%c", line__[x]);
 					}
 				}
-			}		
+			}
+			if (line__[12] == 'v' && line__[13] == 'a' && line__[14] == 'r') {
+				for (int x = 18; x < line__.length(); x++) {
+					if (line__[x] != '(' && line__[x] != ',' && line__[x] != '"' && line__[x] != ')' && line__[x] != ';') {
+						for (int a = 0; a < sizeof(vars_c) / sizeof(vars_c[0]); a++) {
+							vars_c[a] = line__[x];
+						}
+					}
+				}					
+			}
 
 
 	}	
@@ -132,7 +156,6 @@ void interpreter(string line__)
 	if (line__ == "clear();" || line__ == "cls();") {
 		mc_clear();
 	}
-
 	if (line__[0] == 'v' && line__[1] == 'a' && line__[2] == 'r') {
 		mc_var(line__);
 	}

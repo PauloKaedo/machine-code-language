@@ -1,10 +1,4 @@
-print("hi");
-for i,10 -> print("hello xd");
-for i,15 -> print("mc language");
-var(0,p);
-var(1,a);
-var(2,u);
-var(3,l);
-var(4,o);
-print("&0&1&2&3&4");
+for i,10 -> var(i,"h");
+print("&0");
+print("&1");
 pause();

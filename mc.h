@@ -10,4 +10,3 @@ enum errors_type
 	SEMICOLON_NO_EXISTS = 20,
 	FUNCTION_NO_EXISTS = 30
 };
-
